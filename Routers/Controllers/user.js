@@ -10,7 +10,7 @@ const SECRET = process.env.SECRETKAY;
 //create users
 const register = async (req, res) => {
   const { email, password, role } = req.body;
- // email -> lowerCase
+  // email -> lowerCase
   const saveEmail = email.toLowerCase();
   //encryption password
   const hashedPass = await bcrypt.hash(password, SALT);
@@ -39,21 +39,21 @@ const login = (req, res) => {
   const saveEmail = email.toLowerCase();
   userModel
     .findOne({ email: saveEmail })
-    .then( async (result) => {
+    .then(async (result) => {
       if (result) {
-        if (result.email == saveEmail) {
+        if (result.email === saveEmail) {
           //يرجع الباسورد ويقدر يقراه
           const hashedPass = await bcrypt.compare(password, result.password);
           if (hashedPass) {
-            const payload ={
+            const payload = {
               role: result.role,
             };
             const options = {
               expiresIn: "60m",
-            }
+            };
             const token = await jwt.sign(payload, SECRET, options);
 
-            res.status(200).json({result, token});
+            res.status(200).json({ result, token });
           } else {
             res.status(400).json("invalid email or passowrd");
           }
@@ -67,4 +67,4 @@ const login = (req, res) => {
     .catch((err) => res.status(400).json(err));
 };
 
-module.exports = { register , login }
+module.exports = { register, login };
