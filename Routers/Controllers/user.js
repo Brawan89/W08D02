@@ -3,13 +3,14 @@ const userModel = require("./../../db/models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
-const SALT = Number(process.env.SALT);
 
 const SECRET = process.env.SECRETKAY;
 
 //create users
 const register = async (req, res) => {
   const { email, password, role } = req.body;
+  const SALT = Number(process.env.SALT);
+
   // email -> lowerCase
   const saveEmail = email.toLowerCase();
   //encryption password
@@ -41,13 +42,15 @@ const login = (req, res) => {
     .findOne({ email: saveEmail })
     .then(async (result) => {
       if (result) {
-        if (result.email === saveEmail) {
+        if (result.email == saveEmail) {
           //يرجع الباسورد ويقدر يقراه
           const hashedPass = await bcrypt.compare(password, result.password);
+          const payload = {
+            email,
+            // role: result.role,
+          };
           if (hashedPass) {
-            const payload = {
-              role: result.role,
-            };
+           
             const options = {
               expiresIn: "60m",
             };
