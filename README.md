@@ -13,6 +13,7 @@
 -  bcrypt
 -  dotenv
 -  jsonwebtoken
+-  nodemon
 
 ## Routers
 1. Role
