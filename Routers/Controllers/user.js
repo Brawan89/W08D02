@@ -10,8 +10,9 @@ const SECRET = process.env.SECRETKAY;
 //create users
 const register = async (req, res) => {
   const { email, password, role } = req.body;
-
+ // email -> lowerCase
   const saveEmail = email.toLowerCase();
+  //encryption password
   const hashedPass = await bcrypt.hash(password, SALT);
 
   const newUser = new userModel({
@@ -34,12 +35,14 @@ const register = async (req, res) => {
 //login
 const login = (req, res) => {
   const { email, password } = req.body;
+  //email -> lowecase
   const saveEmail = email.toLowerCase();
   userModel
     .findOne({ email: saveEmail })
     .then( async (result) => {
       if (result) {
-        if (result.email == email) {
+        if (result.email == saveEmail) {
+          //يرجع الباسورد ويقدر يقراه
           const hashedPass = await bcrypt.compare(password, result.password);
           if (hashedPass) {
             const payload ={
@@ -49,6 +52,7 @@ const login = (req, res) => {
               expiresIn: "60m",
             }
             const token = await jwt.sign(payload, SECRET, options);
+
             res.status(200).json({result, token});
           } else {
             res.status(400).json("invalid email or passowrd");
