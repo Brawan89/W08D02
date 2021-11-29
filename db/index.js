@@ -7,7 +7,7 @@ const options = {
   useUnifiedTopoLogy: true,
 };
 
-mongoose.connect(process.env.DB_URL, options).then(
+mongoose.connect(process.env.DB_URI, options).then(
   () => {
     console.log(`DB Ready To Use`);
   },
