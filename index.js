@@ -5,8 +5,13 @@ require("./db")
 const app = express();
 app.use(express.json());
 
+//role
 const roleRouter = require("./Routers/Routes/role");
-app.use(roleRouter)
+app.use(roleRouter);
+
+//user
+const userRouter = require("./Routers/Routes/user");
+app.use(userRouter);
 
 
 const PORT = process.env.PORT || 5000;

@@ -1,5 +1,5 @@
 const roleModel = require("./../../db/models/role");
-//
+
 
 // create new role
 const creatRole = (req , res) =>{
